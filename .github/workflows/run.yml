@@ -41,11 +41,12 @@ jobs:
           cd lt-api
           go test ./...
 
-      - name: cd front
-        run: cd ../lt-front
-
       - name: Install dependencies
-        run: npm i
+        run: |
+          cd lt-front
+          npm i
 
       - name: Run Jest tests
-        run: npm run test
+        run: |
+          cd lt-front
+          npm run test
