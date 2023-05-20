@@ -37,9 +37,6 @@ jobs:
         if: ${{ steps.cache-go.outputs.cache-hit != 'true' }}
         run: go mod download
 
-      - name: Download Go modules
-        run: go mod download
-
       - name: Run Go tests
         run: go test ./...
 
