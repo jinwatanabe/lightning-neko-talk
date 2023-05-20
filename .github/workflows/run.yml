@@ -47,5 +47,6 @@ jobs:
           npm i
 
       - name: Run Jest tests
-        run: npm run test |
+        run: |
           cd lt-front
+          npm run test
