@@ -24,8 +24,8 @@ jobs:
     - name: cd api
       run: cd ./lt-api && ls
 
-    - name: Download Go modules
-      run: go mod download
+    # - name: Download Go modules
+    #   run: go mod tidy
 
     - name: Run Go tests
       run: go test ./...
