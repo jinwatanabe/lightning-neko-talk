@@ -5,8 +5,9 @@
 ---
 
 - [Installation](#installation)
-- [Usage](#usage)
-- [Test](#test)
+- [Setup](#setup)
+- [UsageApi](#api)
+- [UsageFrontend](#frontend)
 
 # Installation
 
@@ -15,15 +16,36 @@ $ git clone https://github.com/jinwatanabe/lightning-neko-talk.git
 $ cd lightning-neko-talk
 ```
 
-# Usage
+# Setup
 
 ```bash
-$ make dev
+$ cd environment
+$ make neko
+
+# after using
+# $ make stop
 ```
 
-# Test
+# API
 
 ```bash
-# Run test
+$ cd lt-api
+
+# run server
+$ make run
+
+# run test
+$ make test
+```
+
+# Frontend
+
+```bash
+$ cd lt-frontend
+
+# run server
+$ make dev
+
+# run test
 $ make test
 ```
