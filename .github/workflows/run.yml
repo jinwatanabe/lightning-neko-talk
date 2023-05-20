@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "14" # Replace with your required Node.js version
+          node-version: "18"
 
       - name: Cache Go modules
         id: cache-go
