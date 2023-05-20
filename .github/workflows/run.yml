@@ -1,0 +1,41 @@
+name: Run Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: Run Go and Jest tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.17 # Replace with your required Go version
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14' # Replace with your required Node.js version
+
+    - name: Download Go modules
+      run: go mod download
+
+    - name: cd api
+      run: cd ~/lt-api
+
+    - name: Run Go tests
+      run: go test ./...
+
+    - name: cd front
+      run: cd ~/lt-front  
+
+    - name: Install dependencies
+      run: npm i
+
+    - name: Run Jest tests
+      run: npm run test
+
