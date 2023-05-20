@@ -14,7 +14,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: 1.17 # Replace with your required Go version
+        go-version: 1.20 # Replace with your required Go version
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
@@ -22,7 +22,7 @@ jobs:
         node-version: '14' # Replace with your required Node.js version
 
     - name: cd api
-      run: cd ./lt-api
+      run: cd ./lt-api && ls
 
     - name: Download Go modules
       run: go mod download
