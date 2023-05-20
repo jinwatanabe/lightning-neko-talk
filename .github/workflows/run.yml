@@ -8,34 +8,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.20.3 # Replace with your required Go version
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14' # Replace with your required Node.js version
+      - uses: actions/setup-go@v3
+        with:
+          go-version: "1.20"
 
-    - name: cd api
-      run: cd ./lt-api && ls
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
 
-    # - name: Download Go modules
-    #   run: go mod tidy
+      - name: Cache Go modules
+        id: cache-go
+        uses: actions/cache@v3
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
 
-    - name: Run Go tests
-      run: go test ./...
+      - name: Download Go modules
+        shell: bash
+        if: ${{ steps.cache-go.outputs.cache-hit != 'true' }}
+        run: |
+          cd lt-api
+          go mod download
 
-    - name: cd front
-      run: cd ../lt-front  
+      - name: Run Go tests
+        run: |
+          cd lt-api
+          go test ./...
 
-    - name: Install dependencies
-      run: npm i
+      - name: Install dependencies
+        run: |
+          cd lt-front
+          npm i
 
-    - name: Run Jest tests
-      run: npm run test
-
+      - name: Run Jest tests
+        run: |
+          cd lt-front
+          npm run test
