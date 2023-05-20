@@ -8,34 +8,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.20.3 # Replace with your required Go version
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14' # Replace with your required Node.js version
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.20.3 # Replace with your required Go version
 
-    - name: cd api
-      run: cd ./lt-api && ls
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14" # Replace with your required Node.js version
 
-    # - name: Download Go modules
-    #   run: go mod tidy
+      - name: cd api
+        run: cd ./lt-api
 
-    - name: Run Go tests
-      run: go test ./...
+      - name: Run Go tests
+        run: go test ./...
 
-    - name: cd front
-      run: cd ../lt-front  
+      - name: cd front
+        run: cd ../lt-front
 
-    - name: Install dependencies
-      run: npm i
+      - name: Install dependencies
+        run: npm i
 
-    - name: Run Jest tests
-      run: npm run test
-
+      - name: Run Jest tests
+        run: npm run test
