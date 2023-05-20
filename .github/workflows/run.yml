@@ -21,11 +21,11 @@ jobs:
       with:
         node-version: '14' # Replace with your required Node.js version
 
-    - name: Download Go modules
-      run: go mod download
-
     - name: cd api
       run: cd ~/lt-api
+
+    - name: Download Go modules
+      run: go mod download
 
     - name: Run Go tests
       run: go test ./...
