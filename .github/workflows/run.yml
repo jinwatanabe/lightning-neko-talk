@@ -11,27 +11,41 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Go
-        uses: actions/setup-go@v3
+      - uses: actions/setup-go@v3
         with:
-          go-version: 1.20.3 # Replace with your required Go version
+          go-version: "1.20"
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "14" # Replace with your required Node.js version
+          node-version: "18"
 
-      - name: cd api
-        run: cd ./lt-api
+      - name: Cache Go modules
+        id: cache-go
+        uses: actions/cache@v3
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Download Go modules
+        shell: bash
+        if: ${{ steps.cache-go.outputs.cache-hit != 'true' }}
+        run: |
+          cd lt-api
+          go mod download
 
       - name: Run Go tests
-        run: go test ./...
-
-      - name: cd front
-        run: cd ../lt-front
+        run: |
+          cd lt-api
+          go test ./...
 
       - name: Install dependencies
-        run: npm i
+        run: |
+          cd lt-front
+          npm i
 
       - name: Run Jest tests
-        run: npm run test
+        run: npm run test |
+          cd lt-front
