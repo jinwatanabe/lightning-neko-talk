@@ -29,13 +29,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
+      - name: cd api
+        run: cd ./lt-api
+
       - name: Download Go modules
         shell: bash
         if: ${{ steps.cache-go.outputs.cache-hit != 'true' }}
         run: go mod download
-
-      - name: cd api
-        run: cd ./lt-api
 
       - name: Download Go modules
         run: go mod download
