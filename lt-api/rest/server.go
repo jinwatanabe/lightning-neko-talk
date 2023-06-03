@@ -15,5 +15,11 @@ func NewServer() *gin.Engine {
 		v1.GET("/system/ping", systemHandler.Ping)
 	}
 
+	groups := v1.Group("/groups")
+	{
+		groups.GET("/", groupHandler.GetAll)
+	}
+
+	
 	return r
 }
