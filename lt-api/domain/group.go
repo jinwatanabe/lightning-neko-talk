@@ -24,3 +24,9 @@ type GroupDescription struct {
 type GroupDate struct {
 	Value time.Time `json:"value"`
 }
+
+type GroupJson struct {
+	Name GroupName `json:"name"`
+	Description GroupDescription `json:"description"`
+	Date GroupDate `json:"date"`
+}

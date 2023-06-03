@@ -31,6 +31,33 @@ func (t GroupGateway)GetAll() ([]domain.Group,error){
 	return groups,nil
 }
 
+func (t GroupGateway)GetByID(id domain.GroupId) (domain.Group, error) {
+	groupId := id.Value
+	result, err := t.groupDriver.GetByID(groupId)
+
+	if err != nil {
+		return domain.Group{}, err
+	}
+	group := domain.Group{
+		Id: domain.GroupId{Value: result.Id},
+		Name: domain.GroupName{Value: result.Name},
+		Description: domain.GroupDescription{Value: result.Description},
+		Date: domain.GroupDate{Value: result.Date},
+	}
+	return group, nil
+}
+
+func (t GroupGateway) Create(groupJson domain.GroupJson) error {
+	driverJson := driver.GroupJson{
+		Name: groupJson.Name.Value,
+		Description: groupJson.Description.Value,
+		Date: groupJson.Date.Value,
+	}
+
+	err := t.groupDriver.Create(driverJson)
+	return err
+}
+
 func ProvideGroupPort(groupDriver driver.GroupDriver) GroupGateway {
 	return GroupGateway{groupDriver}
 }

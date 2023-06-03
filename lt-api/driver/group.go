@@ -8,6 +8,8 @@ import (
 
 type GroupDriver interface {
 	GetAll() ([]Group,error)
+	GetByID(id int) (Group,error)
+	Create(GroupJson) error
 }
 
 type GroupDriverImpl struct {
@@ -21,6 +23,18 @@ func (t GroupDriverImpl) GetAll() ([]Group, error){
 	return groups, nil
 }
 
+func (t GroupDriverImpl) GetByID(id int) (Group, error) {
+	group := Group{}
+	t.conn.First(&group, id)
+
+	return group, nil
+}
+
+func (t GroupDriverImpl) Create(groupJson GroupJson) error {
+	err := t.conn.Create(&groupJson)
+	return err.Error
+}
+
 func ProvideGroupDriver(conn *gorm.DB) GroupDriver {
 	return &GroupDriverImpl{conn: conn}
 }
@@ -30,4 +44,14 @@ type Group struct {
 	Name string `gorm:"size:255"`
 	Description string `gorm:"size:255"`
 	Date time.Time `gorm:"type:datetime"`
+}
+
+type GroupJson struct {
+	Name string 
+	Description string
+	Date time.Time
+}
+
+func (GroupJson) TableName() string {
+	return "groups"
 }

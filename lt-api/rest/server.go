@@ -21,6 +21,8 @@ func NewServer() *gin.Engine {
 
 		groupHandler := di.InitGroupHandler()
 		groups.GET("", groupHandler.GetAll)
+		groups.GET("/:id", groupHandler.GetByID)
+		groups.POST("",groupHandler.Create)
 	}
 
 	

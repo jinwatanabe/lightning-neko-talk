@@ -14,3 +14,13 @@ func (m MockGroupPort) GetAll() ([]domain.Group, error) {
 	args := m.Called()
 	return args.Get(0).([]domain.Group), args.Error(1)
 }
+
+func (m MockGroupPort) GetByID(id domain.GroupId) (domain.Group, error) {
+	args := m.Called(id)
+	return args.Get(0).(domain.Group), args.Error(1)
+}
+
+func (m MockGroupPort) Create(groupJson domain.GroupJson) error {
+	args := m.Called(groupJson)
+	return args.Error(0)
+}

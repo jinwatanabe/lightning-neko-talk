@@ -14,3 +14,13 @@ func (m MockGroupDriver) GetAll() ([]driver.Group, error) {
 	args := m.Called()
 	return args.Get(0).([]driver.Group), args.Error(1)
 }
+
+func (m MockGroupDriver) GetByID(id int) (driver.Group, error) {
+	args := m.Called(id)
+	return args.Get(0).(driver.Group), args.Error(1)
+}
+
+func (m MockGroupDriver) Create(groupJson driver.GroupJson) error {
+	args := m.Called(groupJson)
+	return args.Error(0)
+}
