@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"main/di"
 	"main/rest/handler"
 
 	"github.com/gin-gonic/gin"
@@ -17,7 +18,9 @@ func NewServer() *gin.Engine {
 
 	groups := v1.Group("/groups")
 	{
-		groups.GET("/", groupHandler.GetAll)
+
+		groupHandler := di.InitGroupHandler()
+		groups.GET("", groupHandler.GetAll)
 	}
 
 	

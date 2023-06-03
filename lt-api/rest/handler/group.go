@@ -25,7 +25,7 @@ func (h GroupHandler) GetAll(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func NewGroupHandler(groupUsecase usecase.GroupUsecase) *GroupHandler {
+func ProvideGroupHandler(groupUsecase usecase.GroupUsecase) *GroupHandler {
 	return &GroupHandler{
 		groupUsecase: groupUsecase,
 	}

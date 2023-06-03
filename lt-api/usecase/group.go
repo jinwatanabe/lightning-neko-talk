@@ -18,3 +18,7 @@ func (u GroupUsecase) GetAll() ([]domain.Group,error){
 
 	return groups,nil
 }
+
+func ProvideGroupUsecase(groupPort port.GroupPort) GroupUsecase {
+	return GroupUsecase{groupPort}
+}
