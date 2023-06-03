@@ -46,3 +46,14 @@ func Test_Create(t *testing.T) {
 	err := gateway.Create(groupJson)
 	assert.Equal(t,nil,err)
 }
+
+func Test_Update(t *testing.T) {
+	mockDriver := new(MockGroupDriver)
+	gateway := GroupGateway{mockDriver}
+	groupJson := domain.GroupJson{Name: domain.GroupName{Value: "test"}, Description: domain.GroupDescription{Value: "test"}, Date: domain.GroupDate{Value: time.Date(2022, 4, 1, 9, 0, 0, 0, time.Local)}}
+	id := domain.GroupId{Value: 1}
+	driverJson := driver.GroupJson{Name: "test", Description: "test", Date: time.Date(2022, 4, 1, 9, 0, 0, 0, time.Local)}
+	mockDriver.On("Update", 1, driverJson).Return(nil)
+	err := gateway.Update(id, groupJson)
+	assert.Equal(t,nil,err)
+}

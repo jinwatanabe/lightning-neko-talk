@@ -34,6 +34,11 @@ func (u GroupUsecase) Create(groupJson domain.GroupJson) error {
 	return err
 }
 
+func (u GroupUsecase) Update(id domain.GroupId, groupJson domain.GroupJson) error {
+	err := u.groupPort.Update(id, groupJson)
+	return err
+}
+
 func ProvideGroupUsecase(groupPort port.GroupPort) GroupUsecase {
 	return GroupUsecase{groupPort}
 }

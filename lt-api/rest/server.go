@@ -23,6 +23,7 @@ func NewServer() *gin.Engine {
 		groups.GET("", groupHandler.GetAll)
 		groups.GET("/:id", groupHandler.GetByID)
 		groups.POST("",groupHandler.Create)
+		groups.PATCH("/:id",groupHandler.Update)
 	}
 
 	

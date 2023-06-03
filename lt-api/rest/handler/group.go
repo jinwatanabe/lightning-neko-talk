@@ -67,6 +67,32 @@ func (h GroupHandler) Create(c *gin.Context){
 	c.JSON(200, MessageResponse{Message: "success!"})
 }
 
+func (h GroupHandler) Update(c *gin.Context){
+	id := c.Param("id")
+	name := c.PostForm("name")
+	description := c.PostForm("description")
+	date := c.PostForm("date")
+	if name == "" && description == "" && date == "" {
+		c.JSON(400, MessageResponse{Message: "no data"})
+		return
+	}
+
+	i, _ := strconv.Atoi(id)
+	groupId := domain.GroupId{ Value: i}
+	groupJson := domain.GroupJson{
+		Name: domain.GroupName{Value:  name},
+		Description: domain.GroupDescription{Value: description},
+		Date: domain.GroupDate{Value: extension.StringToDate(date)},
+	}
+	err := h.groupUsecase.Update(groupId, groupJson)
+
+	if err != nil {
+		c.JSON(500, MessageResponse{Message: err.Error()})
+		return
+	}
+	c.JSON(200, MessageResponse{Message: "success!"})
+}
+
 func ProvideGroupHandler(groupUsecase usecase.GroupUsecase) *GroupHandler {
 	return &GroupHandler{
 		groupUsecase: groupUsecase,

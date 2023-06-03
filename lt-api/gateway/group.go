@@ -58,6 +58,18 @@ func (t GroupGateway) Create(groupJson domain.GroupJson) error {
 	return err
 }
 
+func (t GroupGateway) Update(id domain.GroupId, groupJson domain.GroupJson) error {
+	i := id.Value
+	driverJson := driver.GroupJson{
+		Name: groupJson.Name.Value,
+		Description: groupJson.Description.Value,
+		Date: groupJson.Date.Value,
+	}
+
+	err := t.groupDriver.Update(i, driverJson)
+	return err
+}
+
 func ProvideGroupPort(groupDriver driver.GroupDriver) GroupGateway {
 	return GroupGateway{groupDriver}
 }

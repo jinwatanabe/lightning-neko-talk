@@ -36,5 +36,18 @@ func Test_Create(t *testing.T) {
 	groupPort.On("Create", groupJson).Return(nil)
 	err := usecase.Create(groupJson)
 	assert.Equal(t,nil,err)
+}
 
+func Test_Update(t *testing.T) {
+	groupPort := new(MockGroupPort)
+	usecase := GroupUsecase{groupPort}
+	groupJson := domain.GroupJson{
+		Name: domain.GroupName{Value: "name"},
+		Description: domain.GroupDescription{Value: "description"},
+		Date: domain.GroupDate{Value: time.Date(2022, 4, 1, 9, 0, 0, 0, time.Local)},
+	}
+	id := domain.GroupId{ Value: 1 }
+	groupPort.On("Update", id, groupJson).Return(nil)
+	err := usecase.Update(id, groupJson)
+	assert.Equal(t,nil,err)
 }
