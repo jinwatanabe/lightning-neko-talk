@@ -8,6 +8,7 @@ import (
 var config *Config
 
 type DatabaseConfig struct {
+	DBName string
 	User string
 	Password string
 	Host string
@@ -31,9 +32,14 @@ func GetConfig() *Config {
 func getDatabaseConfig() DatabaseConfig {
 	port, _ := strconv.Atoi(os.Getenv("DB_PORT"))
 	return DatabaseConfig {
+		DBName: os.Getenv("DB_NAME"),
 		User: os.Getenv("DB_USER"),
 		Password: os.Getenv("DB_PASSWORD"),
 		Host: os.Getenv("DB_HOST"),
 		Port: port,
 	}
+}
+
+func Environment() string {
+	return os.Getenv("ENVIRONMENT")
 }
