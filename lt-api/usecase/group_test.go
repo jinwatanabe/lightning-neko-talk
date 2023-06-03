@@ -51,3 +51,12 @@ func Test_Update(t *testing.T) {
 	err := usecase.Update(id, groupJson)
 	assert.Equal(t,nil,err)
 }
+
+func Test_Delete(t *testing.T){
+	groupPort := new(MockGroupPort)
+	usecase := GroupUsecase{groupPort}
+	id := domain.GroupId{Value: 1}
+	groupPort.On("Delete",id).Return(nil)
+	err := usecase.Delete(id)
+	assert.Equal(t,nil,err)
+}

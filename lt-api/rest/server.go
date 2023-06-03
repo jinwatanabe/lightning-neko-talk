@@ -24,6 +24,7 @@ func NewServer() *gin.Engine {
 		groups.GET("/:id", groupHandler.GetByID)
 		groups.POST("",groupHandler.Create)
 		groups.PATCH("/:id",groupHandler.Update)
+		groups.DELETE("/:id",groupHandler.Delete)
 	}
 
 	

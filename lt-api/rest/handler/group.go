@@ -93,6 +93,20 @@ func (h GroupHandler) Update(c *gin.Context){
 	c.JSON(200, MessageResponse{Message: "success!"})
 }
 
+func (h GroupHandler) Delete(c *gin.Context){
+	id := c.Param("id")
+
+	i, _ := strconv.Atoi(id)
+	groupId := domain.GroupId{Value: i}
+	err := h.groupUsecase.Delete(groupId)
+	if err != nil {
+		c.JSON(500, MessageResponse{Message: err.Error()})
+		return
+	}
+
+	c.JSON(200, MessageResponse{Message: "success!"})
+}
+
 func ProvideGroupHandler(groupUsecase usecase.GroupUsecase) *GroupHandler {
 	return &GroupHandler{
 		groupUsecase: groupUsecase,

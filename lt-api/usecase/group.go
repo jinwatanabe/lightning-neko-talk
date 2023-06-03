@@ -39,6 +39,11 @@ func (u GroupUsecase) Update(id domain.GroupId, groupJson domain.GroupJson) erro
 	return err
 }
 
+func (u GroupUsecase) Delete(id domain.GroupId) error {
+	err := u.groupPort.Delete(id)
+	return err
+}
+
 func ProvideGroupUsecase(groupPort port.GroupPort) GroupUsecase {
 	return GroupUsecase{groupPort}
 }

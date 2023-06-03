@@ -57,3 +57,12 @@ func Test_Update(t *testing.T) {
 	err := gateway.Update(id, groupJson)
 	assert.Equal(t,nil,err)
 }
+
+func Test_Delete(t *testing.T) {
+	mockDriver := new(MockGroupDriver)
+	gateway := GroupGateway{mockDriver}
+	id := domain.GroupId{Value: 1}
+	mockDriver.On("Delete",1).Return(nil)
+	err := gateway.Delete(id)
+	assert.Equal(t,nil,err)
+}

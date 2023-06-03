@@ -29,3 +29,8 @@ func (m MockGroupPort) Update(id domain.GroupId, groupJson domain.GroupJson) err
 	args := m.Called(id, groupJson)
 	return args.Error(0)
 }
+
+func (m MockGroupPort) Delete(id domain.GroupId) error {
+	args := m.Called(id)
+	return args.Error(0)
+}

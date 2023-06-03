@@ -70,6 +70,12 @@ func (t GroupGateway) Update(id domain.GroupId, groupJson domain.GroupJson) erro
 	return err
 }
 
+func (t GroupGateway) Delete(id domain.GroupId) error{
+	i := id.Value
+	err := t.groupDriver.Delete(i)
+	return err
+}
+
 func ProvideGroupPort(groupDriver driver.GroupDriver) GroupGateway {
 	return GroupGateway{groupDriver}
 }

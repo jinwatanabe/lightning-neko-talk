@@ -11,6 +11,7 @@ type GroupDriver interface {
 	GetByID(id int) (Group,error)
 	Create(GroupJson) error
 	Update(id int, groupJson GroupJson) error
+	Delete(id int) error
 }
 
 type GroupDriverImpl struct {
@@ -38,6 +39,11 @@ func (t GroupDriverImpl) Create(groupJson GroupJson) error {
 
 func (t GroupDriverImpl) Update(id int, groupJson GroupJson) error {
 	err := t.conn.Model(&Group{}).Where("id = ?", id).Updates(&groupJson)
+	return err.Error
+}
+
+func (t GroupDriverImpl) Delete(id int) error {
+	err := t.conn.Delete(&Group{},id)
 	return err.Error
 }
 
