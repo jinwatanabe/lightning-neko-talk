@@ -66,9 +66,9 @@ jobs:
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: lightning-neko-talk
 
-      - name: echo
+      - name: echo secret
         run: |
-          echo ${{ secrets.GCLOUD_AUTH }}}
+          echo $GCLOUD_AUTH
 
       - name: Configure docker for artifact registry
         run: |
