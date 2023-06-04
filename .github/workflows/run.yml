@@ -63,7 +63,7 @@ jobs:
       - name: Setup Google Cloud
         uses: google-github-actions/setup-gcloud@main
         with:
-          service_account_key: ${{ secrets.GCLOUD__AUTH }}
+          service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: lightning-neko-talk
 
       - name: Configure docker for artifact registry
