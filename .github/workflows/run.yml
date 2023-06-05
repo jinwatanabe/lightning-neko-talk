@@ -93,6 +93,6 @@ jobs:
           gcloud run deploy api-image \
             --project=lightning-neko-talk \
             --image=us-west1-docker.pkg.dev/lightning-neko-talk/lt-api/api-image:${{ env.TAG }} \
-            --region=us-west1 \
+            --region=us-central1 \
             --service-account=${{ secrets.SERVICE_ACCOUNT }} \
             --allow-unauthenticated
