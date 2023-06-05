@@ -50,7 +50,7 @@ jobs:
           cd lt-front
           npm run test
 
-  CloudRun Deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
