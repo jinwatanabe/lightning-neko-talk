@@ -60,11 +60,19 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GCLOUD_AUTH }}"
+
       - name: Setup Google Cloud
         uses: google-github-actions/setup-gcloud@v1
         with:
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: lightning-neko-talk
+
+      - name: "Use gcloud CLI"
+        run: "gcloud info"
 
       - name: Configure docker for artifact registry
         run: |
