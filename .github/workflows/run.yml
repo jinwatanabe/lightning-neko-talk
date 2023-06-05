@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 jobs:
   test:
-    name: Run Go and Jest tests
     runs-on: ubuntu-latest
 
     steps:
@@ -50,8 +49,8 @@ jobs:
         run: |
           cd lt-front
           npm run test
-  build-and-push:
-    name: Build and Push docker image
+
+  CloudRun Deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -71,8 +70,8 @@ jobs:
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: lightning-neko-talk
 
-      - name: "Use gcloud CLI"
-        run: "gcloud info"
+      # - name: "Use gcloud CLI"
+      #   run: "gcloud info"
 
       - name: Configure docker for artifact registry
         run: |
@@ -88,3 +87,12 @@ jobs:
       - name: Push
         run: |
           docker push us-west1-docker.pkg.dev/lightning-neko-talk/lt-api/api-image:${{ env.TAG }}
+
+      - name: Deploy
+        run: |-
+          gcloud run deploy api-image \
+            --project=lightning-neko-talk \
+            --image=us-west1-docker.pkg.dev/lightning-neko-talk/lt-api/api-image:${{ env.TAG }} \
+            --region=us-west1 \
+            --service-account=${{ secrets.SERVICE_ACCOUNT }} \
+            --allow-unauthenticated
