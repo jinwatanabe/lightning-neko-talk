@@ -4,6 +4,7 @@ import {
   GroupDescription,
   GroupId,
   GroupName,
+  GroupParams,
 } from "../domain/Group";
 import { ErrorResponse, GroupResponse } from "../domain/Response";
 import { GroupDriver } from "../driver/GroupDriver";
@@ -34,5 +35,20 @@ export class GroupGateway implements GroupInputPort {
       }),
       null
     );
+  }
+
+  async create(group: GroupParams) {
+    const groupParamsJson = {
+      name: group.name.value,
+      description: group.description.value,
+      date: group.date.value.toISOString(),
+    };
+    const errorResponse = await this.driver.create(groupParamsJson);
+
+    if (errorResponse) {
+      return new ErrorResponse(errorResponse.message);
+    }
+
+    return null;
   }
 }

@@ -5,6 +5,7 @@ import {
   GroupDescription,
   GroupId,
   GroupName,
+  GroupParams,
 } from "../../domain/Group";
 import {
   GroupApiResponse,
@@ -41,5 +42,20 @@ describe("GroupGateway", () => {
       null
     );
     expect(actual).toEqual(expected);
+  });
+
+  test("LTを作成する", async () => {
+    const driver = {} as GroupDriver;
+    const createMock = jest.fn();
+    driver.create = createMock;
+    when(createMock).calledWith().mockReturnValueOnce(null);
+    const target = new GroupGateway(driver);
+    const group = new GroupParams(
+      new GroupName("LT"),
+      new GroupDescription("ライトニングトーク"),
+      new GroupDate(new Date("2006-01-02 15:04:05"))
+    );
+    await target.create(group);
+    expect(createMock).toBeCalledTimes(1);
   });
 });

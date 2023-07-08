@@ -7,6 +7,14 @@ export class Group {
   ) {}
 }
 
+export class GroupParams {
+  constructor(
+    readonly name: GroupName,
+    readonly description: GroupDescription,
+    readonly date: GroupDate
+  ) {}
+}
+
 export class GroupId {
   constructor(readonly value: number) {}
 }
