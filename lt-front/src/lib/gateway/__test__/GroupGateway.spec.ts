@@ -58,4 +58,31 @@ describe("GroupGateway", () => {
     await target.create(group);
     expect(createMock).toBeCalledTimes(1);
   });
+
+  test("LTを更新する", async () => {
+    const driver = {} as GroupDriver;
+    const updateMock = jest.fn();
+    driver.update = updateMock;
+    when(updateMock).calledWith().mockReturnValueOnce(null);
+    const target = new GroupGateway(driver);
+    const group = new Group(
+      new GroupId(1),
+      new GroupName("LT"),
+      new GroupDescription("ライトニングトーク"),
+      new GroupDate(new Date("2006-01-02 15:04:05"))
+    );
+    await target.update(group);
+    expect(updateMock).toBeCalledTimes(1);
+  });
+
+  test("LTを削除する", async () => {
+    const driver = {} as GroupDriver;
+    const deleteMock = jest.fn();
+    driver.delete = deleteMock;
+    when(deleteMock).calledWith().mockReturnValueOnce(null);
+    const target = new GroupGateway(driver);
+    const id = new GroupId(1);
+    await target.delete(id);
+    expect(deleteMock).toBeCalledTimes(1);
+  });
 });

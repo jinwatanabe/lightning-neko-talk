@@ -5,11 +5,11 @@ import { GroupOutputPort } from "../usecase/port/GroupOutputPort";
 
 export class GroupPresenter implements GroupOutputPort {
   constructor(readonly state: GroupState) {}
-  display(groups: Group[]) : void {
+  display(groups: Group[]): void {
     this.state.setGroups(groups);
   }
 
   displayError(message: ErrorResponse): void {
-    throw new Error("Method not implemented.");
+    this.state.setErrorMessage(message.message);
   }
 }

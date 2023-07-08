@@ -1,9 +1,14 @@
 import axios, { AxiosResponse } from "axios";
 
 export class GroupDriver {
+  baseUrl =
+    process.env.NODE_ENV === "prd"
+      ? "https://api-image-kllnys4xfq-uc.a.run.app"
+      : "http://localhost:3000";
+
   async getAll(): Promise<GroupApiResponse> {
     const result = axios
-      .get("http://localhost:8080/v1/groups")
+      .get(`${this.baseUrl}/v1/groups`)
       .then((response: AxiosResponse<GroupsJsonResponse>) => {
         const data = response.data;
 
@@ -27,13 +32,46 @@ export class GroupDriver {
     params.append("date", convertISOToCustomFormat(groupParamsJson.date));
 
     const result = axios
-      .post("http://localhost:8080/v1/groups", params)
+      .post(`${this.baseUrl}/v1/groups`, params)
       .then(() => {
         return null;
       })
       .catch((error) => {
         console.log(error);
         return new ApiError(error ? error : "データ作成に失敗しました");
+      });
+
+    return result;
+  }
+
+  async update(groupJson: GroupJson): Promise<ApiError | null> {
+    const params = new URLSearchParams();
+    params.append("name", groupJson.name);
+    params.append("description", groupJson.description);
+    params.append("date", convertISOToCustomFormat(groupJson.date));
+
+    const result = axios
+      .patch(`${this.baseUrl}/v1/groups/${groupJson.id}`, params)
+      .then(() => {
+        return null;
+      })
+      .catch((error) => {
+        console.log(error);
+        return new ApiError(error ? error : "データ更新に失敗しました");
+      });
+
+    return result;
+  }
+
+  async delete(id: number): Promise<ApiError | null> {
+    const result = axios
+      .delete(`${this.baseUrl}/v1/groups/${id}`)
+      .then(() => {
+        return null;
+      })
+      .catch((error) => {
+        console.log(error);
+        return new ApiError(error ? error : "データ削除に失敗しました");
       });
 
     return result;

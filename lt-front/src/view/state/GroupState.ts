@@ -9,6 +9,10 @@ export class GroupState {
       return GroupUnitConvert(g);
     });
   }
+
+  setErrorMessage(message: string) {
+    this.errorMessage = message;
+  }
 }
 
 export class GroupUnit {

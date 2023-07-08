@@ -1,6 +1,8 @@
 import {
+  Group,
   GroupDate,
   GroupDescription,
+  GroupId,
   GroupName,
   GroupParams,
 } from "../domain/Group";
@@ -30,6 +32,29 @@ export class GroupUsecase {
       new GroupDate(date)
     );
     const errorResponse = await this.inputPort.create(groupParams);
+
+    if (errorResponse) {
+      this.outputPort.displayError(errorResponse);
+    }
+  }
+
+  async update(id: number, name: string, description: string, date: Date) {
+    const group = new Group(
+      new GroupId(id),
+      new GroupName(name),
+      new GroupDescription(description),
+      new GroupDate(date)
+    );
+    const errorResponse = await this.inputPort.update(group);
+
+    if (errorResponse) {
+      this.outputPort.displayError(errorResponse);
+    }
+  }
+
+  async delete(id: number) {
+    const groupId = new GroupId(id);
+    const errorResponse = await this.inputPort.delete(groupId);
 
     if (errorResponse) {
       this.outputPort.displayError(errorResponse);

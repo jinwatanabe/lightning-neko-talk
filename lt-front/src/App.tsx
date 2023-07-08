@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { GroupUnit, GroupUnitParams } from "./view/state/GroupState";
+import { GroupUnit } from "./view/state/GroupState";
 import { groupsState, usecase } from "./lib/container";
-import { GroupTable } from "./component/GroupTable";
 import { z } from "zod";
 import {
   Box,
@@ -18,8 +17,13 @@ import {
   Text,
   Input,
   Textarea,
+  TableContainer,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
 } from "@chakra-ui/react";
-import { GroupDate, GroupDescription, GroupName } from "./lib/domain/Group";
 
 function App() {
   const [groups, setGroups] = useState<GroupUnit[]>([]);
@@ -28,6 +32,8 @@ function App() {
   const [nameError, setNameError] = useState("");
   const [description, setDescription] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
+  const [id, setId] = useState(0);
 
   const nameSchema = z
     .string()
@@ -71,6 +77,9 @@ function App() {
   const closeModal = () => {
     setNameError("");
     setDescriptionError("");
+    setName("");
+    setDescription("");
+    setIsEdit(false);
     onClose();
   };
 
@@ -81,6 +90,23 @@ function App() {
     if (groupsState.errorMessage === null) {
       closeModal();
       setGroups([...groups, group]);
+    }
+  };
+
+  const updateGroup = async () => {
+    const date = new Date();
+    await usecase.update(id, name, description, date);
+    const group = new GroupUnit(id, name, description, date);
+    if (groupsState.errorMessage === null) {
+      closeModal();
+      setGroups(groups.map((g) => (g.id === id ? group : g)));
+    }
+  };
+
+  const deleteGroup = async (id: number) => {
+    await usecase.delete(id);
+    if (groupsState.errorMessage === null) {
+      setGroups(groups.filter((g) => g.id !== id));
     }
   };
 
@@ -102,7 +128,53 @@ function App() {
         >
           <Button onClick={onOpen}>作成</Button>
         </Box>
-        <GroupTable groups={groups} />
+        <TableContainer border="1px" borderColor="blackAlpha.200" padding="5px">
+          <Table>
+            <Thead>
+              <Tr>
+                <Th>名前</Th>
+                <Th>説明</Th>
+                <Th>作成日</Th>
+                <Th></Th>
+                <Th></Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {groups.map((group) => (
+                <Tr key={group.id}>
+                  <Th>{group.name}</Th>
+                  <Th>{group.description}</Th>
+                  <Th>{group.date.toISOString()}</Th>
+                  <Th width="100px">
+                    <Button
+                      colorScheme="teal"
+                      key={group.id}
+                      onClick={() => {
+                        setName(group.name);
+                        setDescription(group.description);
+                        setIsEdit(true);
+                        setId(group.id);
+                        onOpen();
+                      }}
+                    >
+                      編集
+                    </Button>
+                  </Th>
+                  <Th width="100px">
+                    <Button
+                      colorScheme="red"
+                      onClick={() => {
+                        deleteGroup(group.id);
+                      }}
+                    >
+                      削除
+                    </Button>
+                  </Th>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
       </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -131,15 +203,21 @@ function App() {
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              onClick={() => {
-                createGroup();
-              }}
-            >
-              保存
-            </Button>
+            {isEdit ? (
+              <Button variant="blue" mr={3} onClick={() => updateGroup()}>
+                更新
+              </Button>
+            ) : (
+              <Button
+                colorScheme="blue"
+                mr={3}
+                onClick={() => {
+                  createGroup();
+                }}
+              >
+                保存
+              </Button>
+            )}
             <Button variant="ghost" onClick={() => closeModal()}>
               閉じる
             </Button>

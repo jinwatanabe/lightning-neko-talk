@@ -51,4 +51,30 @@ export class GroupGateway implements GroupInputPort {
 
     return null;
   }
+
+  async update(group: Group) {
+    const groupJson = {
+      id: group.id.value,
+      name: group.name.value,
+      description: group.description.value,
+      date: group.date.value.toISOString(),
+    };
+    const errorResponse = await this.driver.update(groupJson);
+
+    if (errorResponse) {
+      return new ErrorResponse(errorResponse.message);
+    }
+
+    return null;
+  }
+
+  async delete(id: GroupId) {
+    const errorResponse = await this.driver.delete(id.value);
+
+    if (errorResponse) {
+      return new ErrorResponse(errorResponse.message);
+    }
+
+    return null;
+  }
 }

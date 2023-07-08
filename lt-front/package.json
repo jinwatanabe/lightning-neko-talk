@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "test": "jest",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "NODE_ENV=prd vite build && firebase deploy --only hosting"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.6.1",
