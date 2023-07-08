@@ -86,25 +86,25 @@ jobs:
       - name: Build
         run: docker build -t us-west1-docker.pkg.dev/lightning-neko-talk/lt-api/api-image:${{ env.TAG }} ./lt-api
 
-      - name: front build
-        run: |
-          cd lt-front && npm i && npm run prd-build && mv dist ${HOME}/dist
+      # - name: front build
+      #   run: |
+      #     cd lt-front && npm i && npm run prd-build && mv dist ${HOME}/dist
 
-      - name: Install firebase-tools
-        run: |
-          npm install -g firebase-tools
+      # - name: Install firebase-tools
+      #   run: |
+      #     npm install -g firebase-tools
 
-      - name: Decode key fire
-        run: |
-          touch ${HOME}/account-auth.json && echo ${{ secrets.FIREBASE_KEY}} | base64 --decode > ${HOME}/account-auth.json
+      # - name: Decode key fire
+      #   run: |
+      #     touch ${HOME}/account-auth.json && echo ${{ secrets.FIREBASE_KEY } | base64 --decode > ${HOME}/account-auth.json
 
-      - name: Setup Local environment
-        run: |
-          echo "export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/account-auth.json" >> $BASH_ENV
+      # - name: Setup Local environment
+      #   run: |
+      #     echo "export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/account-auth.json" >> $BASH_ENV
 
-      - name: Deploy Frontend
-        run: |
-          firebase deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }}
+      # - name: Deploy Frontend
+      #   run: |
+      #     firebase deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }}
 
       - name: Push
         run: |
