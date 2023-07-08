@@ -90,7 +90,7 @@ jobs:
         run: |
           docker push us-west1-docker.pkg.dev/lightning-neko-talk/lt-api/api-image:${{ env.TAG }}
 
-      - name: Deploy
+      - name: Deploy Backend
         run: |-
           gcloud run deploy api-image \
             --project=lightning-neko-talk \
@@ -98,3 +98,9 @@ jobs:
             --region=us-central1 \
             --service-account=${{ secrets.SERVICE_ACCOUNT }} \
             --allow-unauthenticated
+
+      - run:
+        name: Deploy Firebase Hosting
+        command: |
+          echo $GOOGLE_APPLICATION_CREDENTIALS
+          firebase deploy --only hosting --project $FIREBASE_PROJECT_ID
