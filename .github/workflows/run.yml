@@ -96,7 +96,7 @@ jobs:
 
       - name: Decode key fire
         run: |
-          echo ${{ secrets.FIREBASE_KEY}} | base64 --decode > ${HOME}/account-auth.json
+          touch ${HOME}/account-auth.json && echo ${{ secrets.FIREBASE_KEY}} | base64 --decode > ${HOME}/account-auth.json
 
       - name: Setup Local environment
         run: |
@@ -104,7 +104,7 @@ jobs:
 
       - name: Deploy Frontend
         run: |
-          firebase deploy --only hosting --project $F{{ secrets.FIREBASE_PROJECT_ID }}
+          firebase deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }}
 
       - name: Push
         run: |
