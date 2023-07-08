@@ -7,3 +7,12 @@ func StringToDate(str string) time.Time {
 	t, _ := time.Parse(layout, str)
 	return t
 }
+
+func DateToString(date time.Time) string {
+	const layout = "2006-01-02 15:04:05"
+	if date.IsZero() {
+		return ""
+	}
+
+	return date.Format(layout)
+}

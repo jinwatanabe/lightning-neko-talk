@@ -13,7 +13,7 @@ func NewServer() *gin.Engine {
 
 	{
 		systemHandler := handler.NewSystemHandler()
-		v1.GET("/system/ping", systemHandler.Ping)
+		v1.GET("/systems/ping", systemHandler.Ping)
 	}
 
 	groups := v1.Group("/groups")

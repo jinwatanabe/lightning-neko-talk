@@ -21,8 +21,13 @@ func (h GroupHandler) GetAll(c *gin.Context) {
 		return
 	}
 
+	groupsJson := make([]GroupJson, len(groups))
+	for i, group := range groups {
+		groupsJson[i] = groupToGroupJson(group)
+	}
+
 	response := GroupsResponse{
-		Groups: groups,
+		Groups: groupsJson,
 	}
 	c.JSON(http.StatusOK, response)
 }
@@ -42,7 +47,7 @@ func (h GroupHandler) GetByID(c *gin.Context) {
 	}
 
 	response := GroupResponse {
-		Group: group,
+		Group: groupToGroupJson(group),
 	}
 	c.JSON(http.StatusOK, response)
 }
@@ -113,12 +118,28 @@ func ProvideGroupHandler(groupUsecase usecase.GroupUsecase) *GroupHandler {
 	}
 }
 
+func groupToGroupJson(group domain.Group) GroupJson {
+	return GroupJson{
+		Id: group.Id.Value,
+		Name: group.Name.Value,
+		Description: group.Description.Value,
+		Date: extension.DateToString(group.Date.Value),
+	}
+}
+
+type GroupJson struct {
+	Id int `json:"id"`
+	Name string `json:"name"`
+	Description string `json:"description"`
+	Date string `json:"date"`
+}
+
 type GroupsResponse struct {
-	Groups []domain.Group `json:"groups"`
+	Groups []GroupJson `json:"groups"`
 }
 
 type GroupResponse struct {
-	Group domain.Group `json:"group"`
+	Group GroupJson `json:"group"`
 }
 
 type MessageResponse struct {
