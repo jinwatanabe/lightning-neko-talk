@@ -103,3 +103,19 @@ jobs:
             --region=us-central1 \
             --service-account=${{ secrets.SERVICE_ACCOUNT }} \
             --allow-unauthenticated
+
+      - name: Install firebase-tools
+        run: |
+          npm install -g firebase-tools
+
+      - name: Decode key fire
+        run: |
+          echo ${{ secrets.FIREBASE_KEY}} | base64 --decode > ${HOME}/account-auth.json
+
+      - name: Setup Local environment
+        run: |
+          echo "export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/account-auth.json" >> $BASH_ENV
+
+      - name: Deploy Frontend
+        run: |
+          firebase deploy --only hosting --project $F{{ secrets.FIREBASE_PROJECT_ID }}
