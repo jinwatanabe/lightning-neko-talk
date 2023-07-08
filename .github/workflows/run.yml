@@ -86,10 +86,10 @@ jobs:
       - name: Build
         run: docker build -t us-west1-docker.pkg.dev/lightning-neko-talk/lt-api/api-image:${{ env.TAG }} ./lt-api
 
-      - name: build
+      - name: front build
         run: |
           cd lt-front
-          NODE_ENV=prd vite build
+          npm run prd-build
 
       - name: Push
         run: |
@@ -103,9 +103,3 @@ jobs:
             --region=us-central1 \
             --service-account=${{ secrets.SERVICE_ACCOUNT }} \
             --allow-unauthenticated
-
-      - run:
-        name: Deploy Firebase Hosting
-        command: |
-          echo $GOOGLE_APPLICATION_CREDENTIALS
-          firebase deploy --only hosting --project $FIREBASE_PROJECT_ID
