@@ -204,7 +204,7 @@ function App() {
 
           <ModalFooter>
             {isEdit ? (
-              <Button variant="blue" mr={3} onClick={() => updateGroup()}>
+              <Button colorScheme="blue" mr={3} onClick={() => updateGroup()}>
                 更新
               </Button>
             ) : (
