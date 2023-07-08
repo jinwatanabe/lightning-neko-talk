@@ -13,7 +13,7 @@ func NewServer() *gin.Engine {
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
 			"http://localhost:3000",
-			"https://api-image-kllnys4xfq-uc.a.run.app",
+			"https://lightning-neko-talk.web.app",
 		},
 		AllowMethods: []string{
 			"GET",
