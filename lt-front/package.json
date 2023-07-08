@@ -10,7 +10,7 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "deploy": "NODE_ENV=prd vite build && firebase deploy --only hosting",
-    "prd-build": "NODE_ENV=prd vite build",
+    "prd-build": "NODE_ENV=prd vite build"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.6.1",
